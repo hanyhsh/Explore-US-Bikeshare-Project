@@ -210,14 +210,14 @@ def user_stats(df):
 
 
 
-#Function to display the data frame itself as per user request
+#Function to display the the raw data.
 def raw_data(df):
     """Displays 5 rows of data from the the original data.
     """
     choices = ['yes', 'no']
     select = ''
-    #counter variable is initialized as a tag to ensure only details from
-    #a particular point is displayed
+    
+
     while select not in choices:
         print("\nDo you wish to view the raw data?")
         print("\nAnswer by yes or no, answer is not case senstive.")
