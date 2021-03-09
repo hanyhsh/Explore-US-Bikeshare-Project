@@ -18,23 +18,23 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     cities= ["chicago", "new york city", "washington"]
-    city= input("Choose one of the cities chicago, new york city or washington: ").lower().strip()
+    city= input("Choose one of the cities chicago, new york city or washington, not a case senstive: \n").lower().strip()
     while city not in cities:
         print("You Must Choose a Correct City!")
-        city= input("Choose one of the cities chicago, new york city or washington: ").lower().strip()
+        city= input("Choose one of the cities chicago, new york city or washington, not a case senstive: \n").lower().strip()
 
     # TO DO: get user input for month (all, january, february, ... , june)
     months= ["January","February", "March", "April","May","June", "All" ]
-    month= input("Choose month (january, february, ... , june) or type all for all months: ").title().strip()
+    month= input("Choose month (january, february, ... , june) or type all for all months, not a case senstive: \n").title().strip()
     while month not in months:
         print("Not a correct choice Try Again!")
-        month = input("Choose month (january, february, ... , june) or type all for all months: ").title().strip()
+        month = input("Choose month (january, february, ... , june) or type all for all months, not a case senstive: \n").title().strip()
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     days= ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "All" ]
-    day= input("Choose day of the week full name (monday, tuesday, ..) or type all for all days: ").title().strip()
+    day= input("Choose day of the week full name (monday, tuesday, ..) or type all for all days, not a case senstive: \n").title().strip()
     while day not in days:
         print("Not a correct choice Try Again!")
-        day= input("Choose day of the week (monday, tuesday, ..) or type all for all days: ").title().strip()
+        day= input("Choose day of the week (monday, tuesday, ..) or type all for all days, not a case senstive: \n").title().strip()
 
     print('-'*90)
     return city, month, day
@@ -52,7 +52,7 @@ def load_data(city, month, day):
         df - Pandas DataFrame containing city data filtered by month and day
     """
     # import data
-    df = pd.read_csv(CITY_DATA[city])
+    df = pd.read_csv(CITY_DATA[city].lower())
     
     #parse start time
     import datetime
@@ -209,6 +209,44 @@ def user_stats(df):
     print('-'*40)
 
 
+
+#Function to display the data frame itself as per user request
+def raw_data(df):
+    """Displays 5 rows of data from the the original data.
+    """
+    choices = ['yes', 'no']
+    select = ''
+    #counter variable is initialized as a tag to ensure only details from
+    #a particular point is displayed
+    while select not in choices:
+        print("\nDo you wish to view the raw data?")
+        print("\nAnswer by yes or no, answer is not case senstive.")
+        select = input().lower()
+        #display raw data
+        if select == "yes":
+            print(df.head())
+        elif select not in choices:
+            print("\nPlease check your input.")
+            print("\nAnswer by yes or no, answer is not case senstive.")
+
+
+    #while loop for more data viewing
+    new_rows = 0
+    while select == 'yes':
+        print("\nWould you like to see more data? Enter yes or no.\n")
+        new_rows += 5
+        select = input().lower()
+        #If user opts for it, this displays next 5 rows of data
+        if select == "yes":
+             print(df[new_rows:new_rows+5])
+        elif select != "yes":
+             break
+
+    print('-'*80)
+    
+    
+    
+    
 def main():
     while True:
         city, month, day = get_filters()
@@ -218,6 +256,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        raw_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
